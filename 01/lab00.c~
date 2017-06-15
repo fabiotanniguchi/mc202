@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include <stdlib.h>
+
+/*
+	Fabio Takahashi Tanniguchi - RA 145980
+
+	MC202 - Estruturas de Dados
+	2013 - 2o semestre
+
+	Lab 01 - Tabela de Campeonato
+*/
+
+typedef struct {
+	int time1;
+	int time2;
+} Jogo;
+
+int main(){
+	int nTimes = 0;
+	int i = 0;
+	int j = 0;
+
+	scanf("%d",&nTimes); // lendo o numero de jogos
+
+	Jogo *jogo = NULL;
+	char *time = NULL;
+	char temp, temp2;
+
+	if(nTimes < 2 || nTimes > 20){
+		if(nTimes < 2) // menos que o minimo
+			printf("Erro: Nao ha campeonato com menos de 2 times");
+		else // mais times que o maximo permitido
+			printf("Erro: Numero maximo de times excedido");
+	}else{ // numero de times ok
+		jogo = malloc(nTimes * nTimes * sizeof(Jogo));
+		time = malloc(nTimes * sizeof(char));
+
+		for(i = 0; i < nTimes; i++)
+			scanf("%c",*(time+i));
+
+		for(j = 0; j < nTimes; j++)
+			for(i = j; i < nTimes; i++)
+				scanf("%c %c %d %d",temp, temp2, &(*(jogo+i*nTimes+j).time1), &(*(jogo+i*nTimes+j).time2));
+
+		printf("X");
+		for(i = 0; i < nTimes; i++)
+			printf("|  %c  ", *(time+i) );
+		
+		for(i = 0; i < nTimes; i++){
+			printf("%c", *(time+i) );
+			for(j = 0; j < nTimes; j++){
+				if(i == j)
+					printf("|  X  ");
+				else
+					if(i<j)
+						printf("| %d:%d ", *(jogo+i*nTimes+j).time1, *(jogo+i*nTimes+j).time2);
+					else
+						printf("| %d:%d ", *(jogo+i*nTimes+j).time2, *(jogo+i*nTimes+j).time1);
+			}
+			printf("\n");
+		}
+
+
+		free(time);
+		free(jogo);
+	}
+
+	return 0;
+}
+
